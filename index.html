@@ -4,10 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LUMAVERIS | Horizon Countdown</title>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     /* RESET & VARIABLES */
@@ -21,8 +17,8 @@
       --border-hover: #a1a1aa;
       --accent-black: #09090b;
       --accent-light: #f4f4f5;
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     }
 
     .dark {
@@ -409,15 +405,15 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      max-height: 250px;
+      max-height: 400px;
       overflow-y: auto;
     }
 
     .milestone-item {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      padding: 0.75rem;
+      padding: 0.85rem;
       border-radius: 10px;
       border: 1px solid var(--border-color);
       background: var(--card-bg);
@@ -431,20 +427,22 @@
 
     .milestone-left {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 0.75rem;
       cursor: pointer;
       flex-grow: 1;
     }
 
     .checkbox {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
       border-radius: 4px;
       border: 1px solid var(--border-hover);
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-top: 2px;
     }
 
     .milestone-item.completed .checkbox {
@@ -453,7 +451,8 @@
     }
 
     .milestone-text {
-      font-size: 0.8rem;
+      font-size: 0.825rem;
+      line-height: 1.4;
     }
 
     .milestone-item.completed .milestone-text {
@@ -465,7 +464,8 @@
       border: none;
       color: var(--text-faint);
       cursor: pointer;
-      padding: 2px;
+      padding: 4px;
+      margin-left: 0.5rem;
     }
 
     .icon-btn:hover {
@@ -806,18 +806,23 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       
+      const INITIAL_MILESTONES = [
+        { id: 1, text: "Debt-free.", completed: false },
+        { id: 2, text: "Accumulated at least one year of personal living expenses (₦8.5 million) in savings.", completed: false },
+        { id: 3, text: "Lumaveris has at least five active retainer clients generating a combined minimum of ₦2 million per month consistently for 12 consecutive months.", completed: false },
+        { id: 4, text: "No single client contributes more than 20% of total annual revenue.", completed: false },
+        { id: 5, text: "The demand for partner level related responsibilities has consistently exceeded 80 hours per month outside of full-time employment for at least three consecutive months.", completed: false },
+        { id: 6, text: "Lumaveris has a dependable network of subcontractors or employees capable of delivering and managing client engagements with minimal direct involvement from me.", completed: false },
+        { id: 7, text: "On or before 30.", completed: false }
+      ];
+
       const DEFAULT_STATE = {
         title: "My Last Day",
         subtitle: "WITH MY EMPLOYER",
         startDate: "2025-01-01",
         targetDate: "2029-05-18",
         schedule: "mon-fri",
-        milestones: [
-          { id: 1, text: "Build 6-month financial runway", completed: true },
-          { id: 2, text: "Finalize personal project architecture", completed: false },
-          { id: 3, text: "Consult with financial advisor", completed: false },
-          { id: 4, text: "Submit official resignation notice", completed: false }
-        ]
+        milestones: INITIAL_MILESTONES
       };
 
       let state = loadState();
@@ -854,7 +859,6 @@
         if (startDate >= endDate) return 0;
         let count = 0;
         let cur = new Date(startDate);
-        // Reset to midnight for clean day step
         cur.setHours(0,0,0,0);
         let end = new Date(endDate);
         end.setHours(0,0,0,0);
@@ -877,16 +881,14 @@
       function updateRealtimeClock() {
         const now = new Date();
 
-        // 1. Current Date & Time Banner
         const dateOptions = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
         const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
         const dateStr = now.toLocaleDateString('en-GB', dateOptions);
         const timeStr = now.toLocaleTimeString('en-GB', timeOptions);
         document.getElementById('currentDateTimeDisplay').innerText = `TODAY: ${dateStr} • ${timeStr}`;
 
-        // 2. Realtime Ticker (Hours, Minutes, Seconds remaining within current day step)
         const target = new Date(state.targetDate);
-        target.setHours(0, 0, 0, 0); // Target date midnight
+        target.setHours(0, 0, 0, 0);
 
         const diffMs = target - now;
         if (diffMs <= 0) {
@@ -916,18 +918,15 @@
         const start = new Date(state.startDate);
         const target = new Date(state.targetDate);
 
-        // Schedule Badge
         const scheduleBadge = document.getElementById('scheduleBadge');
         if (state.schedule === 'mon-fri') scheduleBadge.innerText = 'Mon – Fri';
         else if (state.schedule === 'mon-sat') scheduleBadge.innerText = 'Mon – Sat';
         else scheduleBadge.innerText = '7 Days / Wk';
 
-        // Target Date Formatting (Single Location)
         const options = { day: 'numeric', month: 'short', year: 'numeric' };
         document.getElementById('targetDateFormatted').innerText = target.toLocaleDateString('en-GB', options);
         document.getElementById('targetDayOfWeek').innerText = target.toLocaleDateString('en-US', { weekday: 'long' });
 
-        // Countdown Calculations
         const totalCalendarDays = Math.max(0, Math.ceil((target - now) / (1000 * 60 * 60 * 24)));
         const workingDays = calculateWorkingDays(now, target, state.schedule);
         const weeks = Math.floor(totalCalendarDays / 7);
@@ -944,11 +943,9 @@
         document.getElementById('calendarDaysCount').innerText = totalCalendarDays.toLocaleString();
         document.getElementById('workingHoursCount').innerText = `${workingHours.toLocaleString()} hrs`;
 
-        // Progress Bar (Single Location)
         document.getElementById('progressPercentage').innerText = `${percentage}% Complete`;
         document.getElementById('progressBar').style.width = `${percentage}%`;
 
-        // Initial realtime clock update
         updateRealtimeClock();
         renderMilestones();
       }
@@ -956,6 +953,10 @@
       function renderMilestones() {
         const list = document.getElementById('milestoneList');
         list.innerHTML = '';
+
+        if (!state.milestones || state.milestones.length === 0) {
+          state.milestones = JSON.parse(JSON.stringify(INITIAL_MILESTONES));
+        }
 
         state.milestones.forEach(m => {
           const item = document.createElement('div');
@@ -968,7 +969,7 @@
               </div>
               <span class="milestone-text">${escapeHtml(m.text)}</span>
             </div>
-            <button class="icon-btn delete-btn" data-id="${m.id}">
+            <button class="icon-btn delete-btn" data-id="${m.id}" aria-label="Delete milestone">
               <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
             </button>
           `;
@@ -976,7 +977,6 @@
           list.appendChild(item);
         });
 
-        // Event delegation for milestones
         list.querySelectorAll('.milestone-left').forEach(el => {
           el.addEventListener('click', () => toggleMilestone(parseInt(el.dataset.id)));
         });
@@ -1015,7 +1015,7 @@
         }
       }
 
-      // Storage
+      // Storage Management
       function saveState() {
         try {
           localStorage.setItem('lumaveris_mono_state', JSON.stringify(state));
@@ -1027,9 +1027,15 @@
       function loadState() {
         try {
           const saved = localStorage.getItem('lumaveris_mono_state');
-          return saved ? JSON.parse(saved) : DEFAULT_STATE;
+          if (!saved) return JSON.parse(JSON.stringify(DEFAULT_STATE));
+          
+          const parsed = JSON.parse(saved);
+          if (!parsed.milestones || !Array.isArray(parsed.milestones) || parsed.milestones.length === 0) {
+            parsed.milestones = JSON.parse(JSON.stringify(INITIAL_MILESTONES));
+          }
+          return parsed;
         } catch (e) {
-          return DEFAULT_STATE;
+          return JSON.parse(JSON.stringify(DEFAULT_STATE));
         }
       }
 
@@ -1091,7 +1097,7 @@
       document.getElementById('resetBtn').addEventListener('click', () => {
         state = JSON.parse(JSON.stringify(DEFAULT_STATE));
         render();
-        showToast("Reset to defaults");
+        showToast("Reset to default state");
       });
 
       document.getElementById('copySummaryBtn').addEventListener('click', () => {
