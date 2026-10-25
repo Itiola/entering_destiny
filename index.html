@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMAVERIS | Horizon Countdown</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* RESET & VARIABLES */
+    :root {
+      --bg-color: #fafafa;
+      --card-bg: #ffffff;
+      --text-main: #09090b;
+      --text-muted: #71717a;
+      --text-faint: #a1a1aa;
+      --border-color: #e4e4e7;
+      --border-hover: #a1a1aa;
+      --accent-black: #09090b;
+      --accent-light: #f4f4f5;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    .dark {
+      --bg-color: #09090b;
+      --card-bg: #121215;
+      --text-main: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --text-faint: #52525b;
+      --border-color: #27272a;
+      --border-hover: #52525b;
+      --accent-black: #ffffff;
+      --accent-light: #18181b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      padding: 1.5rem 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      min-height: 92vh;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 2rem;
+    }
+
+    .brand-title {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .brand-subtext {
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .today-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      padding: 0.35rem 0.65rem;
+      background: var(--accent-light);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-black);
+      display: inline-block;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    /* BUTTONS & CARDS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: var(--card-bg);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      border-color: var(--border-hover);
+    }
+
+    .btn-primary {
+      background: var(--accent-black);
+      color: var(--bg-color);
+      border-color: var(--accent-black);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    .mono-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: border-color 0.2s ease;
+    }
+
+    /* GOAL TITLE SECTION */
+    .goal-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: var(--accent-light);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      margin-bottom: 1rem;
+    }
+
+    .goal-title {
+      font-family: var(--font-mono);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+
+    .goal-subtitle {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: var(--border-color);
+      margin: 1.25rem auto 0 auto;
+    }
+
+    /* MAIN HERO COUNTER */
+    .hero-card {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .schedule-tag {
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--accent-light);
+      border: 1px solid var(--border-color);
+    }
+
+    .hero-number {
+      font-family: var(--font-mono);
+      font-size: clamp(4.5rem, 12vw, 7.5rem);
+      font-weight: 200;
+      line-height: 1;
+      margin: 1.25rem 0;
+      letter-spacing: -0.04em;
+    }
+
+    /* REALTIME TICKER */
+    .ticker-container {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      margin: 0.75rem 0 1.5rem 0;
+      font-family: var(--font-mono);
+    }
+
+    .ticker-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .ticker-val {
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+
+    .ticker-lbl {
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .ticker-sep {
+      font-size: 1rem;
+      color: var(--text-faint);
+      margin-top: 2px;
+    }
+
+    /* SINGLE PROGRESS DISPLAY */
+    .progress-section {
+      margin-top: 1rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-title {
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      font-size: 0.65rem;
+    }
+
+    .progress-percentage {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: var(--accent-light);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--accent-black);
+      border-radius: 999px;
+      width: 0%;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* GRID METRICS */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .metric-card {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+    }
+
+    .metric-value {
+      font-family: var(--font-mono);
+      font-size: 1.75rem;
+      font-weight: 300;
+      margin-top: 0.75rem;
+    }
+
+    .metric-sub {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-faint);
+      margin-top: 0.25rem;
+    }
+
+    /* MILESTONES */
+    .milestones-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .milestones-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    .milestones-sub {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .add-task-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .add-task-row.hidden {
+      display: none;
+    }
+
+    input[type="text"], input[type="date"], select {
+      flex-grow: 1;
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--accent-light);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--border-hover);
+    }
+
+    .milestone-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    .milestone-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      transition: all 0.2s ease;
+    }
+
+    .milestone-item.completed {
+      background: var(--accent-light);
+      opacity: 0.6;
+    }
+
+    .milestone-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      flex-grow: 1;
+    }
+
+    .checkbox {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1px solid var(--border-hover);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .milestone-item.completed .checkbox {
+      background: var(--accent-black);
+      border-color: var(--accent-black);
+    }
+
+    .milestone-text {
+      font-size: 0.8rem;
+    }
+
+    .milestone-item.completed .milestone-text {
+      text-decoration: line-through;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      color: var(--text-faint);
+      cursor: pointer;
+      padding: 2px;
+    }
+
+    .icon-btn:hover {
+      color: var(--text-main);
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: auto;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .footer-link {
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover {
+      color: var(--text-main);
+    }
+
+    /* MODAL */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 440px;
+      padding: 1.5rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--accent-black);
+      color: var(--bg-color);
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 200;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* SVG ICONS */
+    .svg-icon {
+      width: 14px;
+      height: 14px;
+      stroke-width: 2;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- HEADER -->
+    <header>
+      <div>
+        <h1 class="brand-title">LUMAVERIS</h1>
+        <p class="brand-subtext">BIGGER DREAMS. REAL PLANS.</p>
+        <!-- CURRENT DATE & TIME DISPLAY -->
+        <div class="today-banner">
+          <span class="live-dot"></span>
+          <span id="currentDateTimeDisplay">TODAY: --</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="settingsBtn" class="btn">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          Settings
+        </button>
+        <button id="themeToggle" class="btn" aria-label="Toggle Theme">
+          <svg id="themeIcon" class="svg-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+      
+      <!-- GOAL TITLE -->
+      <div class="goal-header">
+        <span class="badge">COUNTDOWN TO</span>
+        <h2 id="goalTitle" class="goal-title">My Last Day</h2>
+        <p id="goalSubtitle" class="goal-subtitle">WITH MY EMPLOYER</p>
+        <div class="divider"></div>
+      </div>
+
+      <!-- MAIN HERO CARD -->
+      <div class="mono-card hero-card">
+        <div class="card-top-row">
+          <span>Working Days Left</span>
+          <span id="scheduleBadge" class="schedule-tag">Mon – Fri</span>
+        </div>
+
+        <div id="workingDaysCount" class="hero-number">---</div>
+
+        <!-- REALTIME TICKER (HOURS, MINS, SECONDS) -->
+        <div class="ticker-container">
+          <div class="ticker-block">
+            <span id="tickerHours" class="ticker-val">00</span>
+            <span class="ticker-lbl">Hours</span>
+          </div>
+          <span class="ticker-sep">:</span>
+          <div class="ticker-block">
+            <span id="tickerMinutes" class="ticker-val">00</span>
+            <span class="ticker-lbl">Mins</span>
+          </div>
+          <span class="ticker-sep">:</span>
+          <div class="ticker-block">
+            <span id="tickerSeconds" class="ticker-val">00</span>
+            <span class="ticker-lbl">Secs</span>
+          </div>
+        </div>
+
+        <!-- SINGLE PROGRESS BAR DISPLAY -->
+        <div class="progress-section">
+          <div class="progress-meta">
+            <span class="progress-title">Journey Progress</span>
+            <span id="progressPercentage" class="progress-percentage">0.0% Complete</span>
+          </div>
+          <div class="progress-track">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- METRICS GRID -->
+      <div class="metrics-grid">
+        <!-- WEEKS -->
+        <div class="mono-card metric-card">
+          <span class="metric-label">Weeks</span>
+          <div id="weeksCount" class="metric-value">--</div>
+          <div id="weeksDetail" class="metric-sub">-- weeks & -- days</div>
+        </div>
+
+        <!-- CALENDAR DAYS -->
+        <div class="mono-card metric-card">
+          <span class="metric-label">Calendar Days</span>
+          <div id="calendarDaysCount" class="metric-value">---</div>
+          <div class="metric-sub">Total Days Remaining</div>
+        </div>
+
+        <!-- WORKING HOURS -->
+        <div class="mono-card metric-card">
+          <span class="metric-label">Working Hours</span>
+          <div id="workingHoursCount" class="metric-value">---</div>
+          <div class="metric-sub">Est. 8 Hours / Day</div>
+        </div>
+
+        <!-- TARGET DATE CARD (SINGLE LOCATION) -->
+        <div class="mono-card metric-card">
+          <span class="metric-label">Target Date</span>
+          <div id="targetDateFormatted" class="metric-value" style="font-size: 1.25rem; font-weight: 500;">---</div>
+          <div id="targetDayOfWeek" class="metric-sub">---</div>
+        </div>
+      </div>
+
+      <!-- MILESTONES CHECKLIST -->
+      <div class="mono-card">
+        <div class="milestones-header">
+          <div>
+            <h3 class="milestones-title">Milestone Checklist</h3>
+            <p class="milestones-sub">Key targets prior to transition</p>
+          </div>
+          <button id="addMilestoneBtn" class="btn btn-primary">
+            <svg class="svg-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Add Task
+          </button>
+        </div>
+
+        <div id="addTaskRow" class="add-task-row hidden">
+          <input type="text" id="newTaskInput" placeholder="Enter new milestone description...">
+          <button id="saveTaskBtn" class="btn btn-primary">Save</button>
+        </div>
+
+        <div id="milestoneList" class="milestone-list">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <span>LUMAVERIS &copy; Horizon Planner</span>
+      <div class="footer-links">
+        <span id="resetBtn" class="footer-link">Reset</span>
+        <span>•</span>
+        <span id="copySummaryBtn" class="footer-link">Copy Summary</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- SETTINGS MODAL -->
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <span>Configure Target</span>
+        <button id="closeModalBtn" class="icon-btn">
+          <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form id="settingsForm">
+        <div class="form-group">
+          <label>Goal Title</label>
+          <input type="text" id="inputTitle" required>
+        </div>
+
+        <div class="form-group">
+          <label>Subtitle</label>
+          <input type="text" id="inputSubtitle">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Start Date</label>
+            <input type="date" id="inputStartDate" required>
+          </div>
+          <div class="form-group">
+            <label>Target Date</label>
+            <input type="date" id="inputTargetDate" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Working Days Filter</label>
+          <select id="inputSchedule">
+            <option value="mon-fri">Monday to Friday (5 Days)</option>
+            <option value="mon-sat">Monday to Saturday (6 Days)</option>
+            <option value="all-days">Everyday (7 Days)</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelModalBtn" class="btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="toast">Action completed</div>
+
+  <!-- STANDALONE JS -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      
+      const DEFAULT_STATE = {
+        title: "My Last Day",
+        subtitle: "WITH MY EMPLOYER",
+        startDate: "2025-01-01",
+        targetDate: "2029-05-18",
+        schedule: "mon-fri",
+        milestones: [
+          { id: 1, text: "Build 6-month financial runway", completed: true },
+          { id: 2, text: "Finalize personal project architecture", completed: false },
+          { id: 3, text: "Consult with financial advisor", completed: false },
+          { id: 4, text: "Submit official resignation notice", completed: false }
+        ]
+      };
+
+      let state = loadState();
+
+      // Theme Management
+      function initTheme() {
+        const isDark = localStorage.getItem('lumaveris_theme') === 'dark' || 
+          (!localStorage.getItem('lumaveris_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        updateThemeIcon(isDark);
+      }
+
+      function toggleTheme() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('lumaveris_theme', isDark ? 'dark' : 'light');
+        updateThemeIcon(isDark);
+      }
+
+      function updateThemeIcon(isDark) {
+        const icon = document.getElementById('themeIcon');
+        if (isDark) {
+          icon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+        } else {
+          icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+        }
+      }
+
+      // Working Days Calculation
+      function calculateWorkingDays(startDate, endDate, schedule) {
+        if (startDate >= endDate) return 0;
+        let count = 0;
+        let cur = new Date(startDate);
+        // Reset to midnight for clean day step
+        cur.setHours(0,0,0,0);
+        let end = new Date(endDate);
+        end.setHours(0,0,0,0);
+
+        while (cur < end) {
+          const day = cur.getDay();
+          if (schedule === 'mon-fri') {
+            if (day !== 0 && day !== 6) count++;
+          } else if (schedule === 'mon-sat') {
+            if (day !== 0) count++;
+          } else {
+            count++;
+          }
+          cur.setDate(cur.getDate() + 1);
+        }
+        return count;
+      }
+
+      // Update Header Clock and Realtime Ticker
+      function updateRealtimeClock() {
+        const now = new Date();
+
+        // 1. Current Date & Time Banner
+        const dateOptions = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+        const dateStr = now.toLocaleDateString('en-GB', dateOptions);
+        const timeStr = now.toLocaleTimeString('en-GB', timeOptions);
+        document.getElementById('currentDateTimeDisplay').innerText = `TODAY: ${dateStr} • ${timeStr}`;
+
+        // 2. Realtime Ticker (Hours, Minutes, Seconds remaining within current day step)
+        const target = new Date(state.targetDate);
+        target.setHours(0, 0, 0, 0); // Target date midnight
+
+        const diffMs = target - now;
+        if (diffMs <= 0) {
+          document.getElementById('tickerHours').innerText = '00';
+          document.getElementById('tickerMinutes').innerText = '00';
+          document.getElementById('tickerSeconds').innerText = '00';
+          return;
+        }
+
+        const hrsRem = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+        const minsRem = Math.floor((diffMs / (1000 * 60)) % 60);
+        const secsRem = Math.floor((diffMs / 1000) % 60);
+
+        document.getElementById('tickerHours').innerText = String(hrsRem).padStart(2, '0');
+        document.getElementById('tickerMinutes').innerText = String(minsRem).padStart(2, '0');
+        document.getElementById('tickerSeconds').innerText = String(secsRem).padStart(2, '0');
+      }
+
+      // Render Dashboard Metrics
+      function render() {
+        saveState();
+
+        document.getElementById('goalTitle').innerText = state.title;
+        document.getElementById('goalSubtitle').innerText = state.subtitle;
+
+        const now = new Date();
+        const start = new Date(state.startDate);
+        const target = new Date(state.targetDate);
+
+        // Schedule Badge
+        const scheduleBadge = document.getElementById('scheduleBadge');
+        if (state.schedule === 'mon-fri') scheduleBadge.innerText = 'Mon – Fri';
+        else if (state.schedule === 'mon-sat') scheduleBadge.innerText = 'Mon – Sat';
+        else scheduleBadge.innerText = '7 Days / Wk';
+
+        // Target Date Formatting (Single Location)
+        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        document.getElementById('targetDateFormatted').innerText = target.toLocaleDateString('en-GB', options);
+        document.getElementById('targetDayOfWeek').innerText = target.toLocaleDateString('en-US', { weekday: 'long' });
+
+        // Countdown Calculations
+        const totalCalendarDays = Math.max(0, Math.ceil((target - now) / (1000 * 60 * 60 * 24)));
+        const workingDays = calculateWorkingDays(now, target, state.schedule);
+        const weeks = Math.floor(totalCalendarDays / 7);
+        const extraDays = totalCalendarDays % 7;
+        const workingHours = workingDays * 8;
+
+        const totalJourneyDays = Math.max(1, Math.ceil((target - start) / (1000 * 60 * 60 * 24)));
+        const daysPassed = Math.max(0, Math.ceil((now - start) / (1000 * 60 * 60 * 24)));
+        const percentage = Math.min(100, Math.max(0, ((daysPassed / totalJourneyDays) * 100))).toFixed(1);
+
+        document.getElementById('workingDaysCount').innerText = workingDays.toLocaleString();
+        document.getElementById('weeksCount').innerText = weeks.toLocaleString();
+        document.getElementById('weeksDetail').innerText = `${weeks} wks & ${extraDays} days`;
+        document.getElementById('calendarDaysCount').innerText = totalCalendarDays.toLocaleString();
+        document.getElementById('workingHoursCount').innerText = `${workingHours.toLocaleString()} hrs`;
+
+        // Progress Bar (Single Location)
+        document.getElementById('progressPercentage').innerText = `${percentage}% Complete`;
+        document.getElementById('progressBar').style.width = `${percentage}%`;
+
+        // Initial realtime clock update
+        updateRealtimeClock();
+        renderMilestones();
+      }
+
+      function renderMilestones() {
+        const list = document.getElementById('milestoneList');
+        list.innerHTML = '';
+
+        state.milestones.forEach(m => {
+          const item = document.createElement('div');
+          item.className = `milestone-item ${m.completed ? 'completed' : ''}`;
+          
+          item.innerHTML = `
+            <div class="milestone-left" data-id="${m.id}">
+              <div class="checkbox">
+                ${m.completed ? '<svg class="svg-icon" viewBox="0 0 24 24" style="stroke: var(--bg-color)"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
+              </div>
+              <span class="milestone-text">${escapeHtml(m.text)}</span>
+            </div>
+            <button class="icon-btn delete-btn" data-id="${m.id}">
+              <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          `;
+
+          list.appendChild(item);
+        });
+
+        // Event delegation for milestones
+        list.querySelectorAll('.milestone-left').forEach(el => {
+          el.addEventListener('click', () => toggleMilestone(parseInt(el.dataset.id)));
+        });
+
+        list.querySelectorAll('.delete-btn').forEach(el => {
+          el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            deleteMilestone(parseInt(el.dataset.id));
+          });
+        });
+      }
+
+      function toggleMilestone(id) {
+        const m = state.milestones.find(item => item.id === id);
+        if (m) {
+          m.completed = !m.completed;
+          render();
+        }
+      }
+
+      function deleteMilestone(id) {
+        state.milestones = state.milestones.filter(item => item.id !== id);
+        render();
+        showToast("Milestone deleted");
+      }
+
+      function addMilestone() {
+        const input = document.getElementById('newTaskInput');
+        const text = input.value.trim();
+        if (text) {
+          state.milestones.push({ id: Date.now(), text: text, completed: false });
+          input.value = '';
+          document.getElementById('addTaskRow').classList.add('hidden');
+          render();
+          showToast("Milestone added");
+        }
+      }
+
+      // Storage
+      function saveState() {
+        try {
+          localStorage.setItem('lumaveris_mono_state', JSON.stringify(state));
+        } catch (e) {
+          console.warn("Storage warning", e);
+        }
+      }
+
+      function loadState() {
+        try {
+          const saved = localStorage.getItem('lumaveris_mono_state');
+          return saved ? JSON.parse(saved) : DEFAULT_STATE;
+        } catch (e) {
+          return DEFAULT_STATE;
+        }
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.innerText = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+      }
+
+      function escapeHtml(str) {
+        return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+      }
+
+      // Event Listeners
+      document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+      
+      const modal = document.getElementById('modalBackdrop');
+      const openModal = () => {
+        document.getElementById('inputTitle').value = state.title;
+        document.getElementById('inputSubtitle').value = state.subtitle;
+        document.getElementById('inputStartDate').value = state.startDate;
+        document.getElementById('inputTargetDate').value = state.targetDate;
+        document.getElementById('inputSchedule').value = state.schedule;
+        modal.classList.add('active');
+      };
+
+      const closeModal = () => modal.classList.remove('active');
+
+      document.getElementById('settingsBtn').addEventListener('click', openModal);
+      document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+      document.getElementById('cancelModalBtn').addEventListener('click', closeModal);
+
+      document.getElementById('settingsForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        state.title = document.getElementById('inputTitle').value;
+        state.subtitle = document.getElementById('inputSubtitle').value;
+        state.startDate = document.getElementById('inputStartDate').value;
+        state.targetDate = document.getElementById('inputTargetDate').value;
+        state.schedule = document.getElementById('inputSchedule').value;
+        render();
+        closeModal();
+        showToast("Settings updated");
+      });
+
+      document.getElementById('addMilestoneBtn').addEventListener('click', () => {
+        const row = document.getElementById('addTaskRow');
+        row.classList.toggle('hidden');
+        if (!row.classList.contains('hidden')) {
+          document.getElementById('newTaskInput').focus();
+        }
+      });
+
+      document.getElementById('saveTaskBtn').addEventListener('click', addMilestone);
+      document.getElementById('newTaskInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') addMilestone();
+      });
+
+      document.getElementById('resetBtn').addEventListener('click', () => {
+        state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+        render();
+        showToast("Reset to defaults");
+      });
+
+      document.getElementById('copySummaryBtn').addEventListener('click', () => {
+        const text = `LUMAVERIS: ${document.getElementById('workingDaysCount').innerText} working days left (${document.getElementById('progressPercentage').innerText}). Target: ${document.getElementById('targetDateFormatted').innerText}`;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text);
+          showToast("Summary copied to clipboard");
+        } else {
+          showToast("Summary generated");
+        }
+      });
+
+      // Init & Start 1-second interval loop
+      initTheme();
+      render();
+      setInterval(updateRealtimeClock, 1000);
+    });
+  </script>
+</body>
+</html>
